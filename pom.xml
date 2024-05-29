@@ -18,6 +18,7 @@
 	<description>Laboratory work realization</description>
 	<properties>
 		<java.version>21</java.version>
+		<modelmapper.version>3.2.0</modelmapper.version>
 	</properties>
 
 	<dependencies>
@@ -43,6 +44,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
+			<version>2.2.220</version> <!--	Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220. -->
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -53,6 +55,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
 		</dependency>
 	</dependencies>
 
