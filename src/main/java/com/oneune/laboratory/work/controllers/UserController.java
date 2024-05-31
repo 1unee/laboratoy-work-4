@@ -6,8 +6,8 @@ import com.oneune.laboratory.work.store.dtos.UserDto;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -49,6 +49,7 @@ public class UserController implements CRUDable<UserDto> {
     }
 
     @GetMapping("${server.api.version.users}")
+    @Cacheable(value = "users", cacheManager = "userCacheManager")
     public List<UserDto> getAll(@RequestParam(required = false, defaultValue = "${server.repository.max-amount-on-all-getting}") Integer amount) {
         return this.userService.search(0, amount);
     }

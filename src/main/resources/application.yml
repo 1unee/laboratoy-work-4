@@ -14,4 +14,6 @@ spring:
 server:
   servlet.context-path: /user-api
   api.version.users: v1
-  repository.max-amount-on-all-getting: 10000
+  repository.max-amount-on-all-getting: 1000
+
+cache.manager.expire-time.seconds: 30

@@ -5,7 +5,6 @@ import com.oneune.laboratory.work.services.contracts.CRUDable;
 import com.oneune.laboratory.work.services.readers.UserReader;
 import com.oneune.laboratory.work.store.dtos.UserDto;
 import com.oneune.laboratory.work.store.entities.UserEntity;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
