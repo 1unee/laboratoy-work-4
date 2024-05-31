@@ -16,6 +16,6 @@ import lombok.experimental.SuperBuilder;
 @ToString
 public abstract class AbstractEntity implements Identifiable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 }

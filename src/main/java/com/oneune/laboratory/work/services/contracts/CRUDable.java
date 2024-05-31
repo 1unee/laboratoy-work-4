@@ -12,7 +12,7 @@ import java.util.List;
 public interface CRUDable<D extends AbstractDto> {
     D post(D dto);
     D getById(Long dtoId);
-    List<UserDto> paginate(int page, int size);
+    List<UserDto> search(int page, int size);
     D put(Long dtoId, D dto);
     D deleteById(Long dtoId);
 }

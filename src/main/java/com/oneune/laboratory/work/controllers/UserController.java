@@ -1,6 +1,5 @@
 package com.oneune.laboratory.work.controllers;
 
-
 import com.oneune.laboratory.work.services.business.UserService;
 import com.oneune.laboratory.work.services.contracts.CRUDable;
 import com.oneune.laboratory.work.store.dtos.UserDto;
@@ -33,8 +32,8 @@ public class UserController implements CRUDable<UserDto> {
 
     @Override
     @GetMapping("${server.api.version.users}/search")
-    public List<UserDto> paginate(@RequestParam int page, @RequestParam int size) {
-        return this.userService.paginate(page, size);
+    public List<UserDto> search(@RequestParam int page, @RequestParam int size) {
+        return this.userService.search(page, size);
     }
 
     @Override
@@ -47,5 +46,10 @@ public class UserController implements CRUDable<UserDto> {
     @DeleteMapping("${server.api.version.users}/{userId}")
     public UserDto deleteById(@PathVariable Long userId) {
         return this.userService.deleteById(userId);
+    }
+
+    @GetMapping("${server.api.version.users}")
+    public List<UserDto> getAll(@RequestParam(required = false, defaultValue = "${server.repository.max-amount-on-all-getting}") Integer amount) {
+        return this.userService.search(0, amount);
     }
 }

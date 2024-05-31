@@ -10,8 +10,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Getter
-@ToString
+@Data
 public abstract class AbstractDto implements Identifiable {
+    @Setter(AccessLevel.PRIVATE)
     Long id;
 }

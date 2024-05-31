@@ -11,4 +11,7 @@ spring:
   sql.init.mode: always
   flyway.enabled: true
 
-server.api.version.users: v1
+server:
+  servlet.context-path: /user-api
+  api.version.users: v1
+  repository.max-amount-on-all-getting: 10000

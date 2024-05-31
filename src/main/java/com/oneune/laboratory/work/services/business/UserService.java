@@ -2,6 +2,7 @@ package com.oneune.laboratory.work.services.business;
 
 import com.oneune.laboratory.work.repositories.UserRepository;
 import com.oneune.laboratory.work.services.contracts.CRUDable;
+import com.oneune.laboratory.work.services.readers.UserReader;
 import com.oneune.laboratory.work.store.dtos.UserDto;
 import com.oneune.laboratory.work.store.entities.UserEntity;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +27,7 @@ public class UserService implements CRUDable<UserDto> {
     static Type USER_LIST_DTOS_REFERENCE = new ParameterizedTypeReference<List<UserDto>>(){}.getType();
 
     UserRepository userRepository;
+    UserReader userReader;
     ModelMapper modelMapper;
 
     @Override
@@ -33,23 +35,18 @@ public class UserService implements CRUDable<UserDto> {
     public UserDto post(UserDto userDto) {
         UserEntity userEntity = this.modelMapper.map(userDto, UserEntity.class);
         UserEntity createdUserEntity = this.userRepository.saveAndFlush(userEntity);// тут понятно, что сохранять и мб флашить контекст не обязательно (это сделает хибер), но для лучшей читаемости предпочитаю явно это делать
-        UserDto createdUserDto = this.modelMapper.map(createdUserEntity, UserDto.class);
-        return createdUserDto;
+        return this.modelMapper.map(createdUserEntity, UserDto.class);
     }
 
     @Override
     public UserDto getById(Long userId) {
-        UserEntity foundUserEntity = this.userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id %s not found...".formatted(userId)));
-        UserDto foundUserDto = this.modelMapper.map(foundUserEntity, UserDto.class);
-        return foundUserDto;
+        return this.userReader.findUserById(userId);
     }
 
     @Override
-    public List<UserDto> paginate(int page, int size) {
+    public List<UserDto> search(int page, int size) {
         Page<UserEntity> userEntities = this.userRepository.findAll(PageRequest.of(page, size));
-        List<UserDto> userDtos = this.modelMapper.map(userEntities.get().toList(), USER_LIST_DTOS_REFERENCE);
-        return userDtos;
+        return this.modelMapper.map(userEntities.getContent(), USER_LIST_DTOS_REFERENCE);
     }
 
     @Override
@@ -57,16 +54,13 @@ public class UserService implements CRUDable<UserDto> {
     public UserDto put(Long userId, UserDto userDto) {
         UserEntity userEntity = this.modelMapper.map(userDto, UserEntity.class);
         UserEntity updatedUserEntity = this.userRepository.saveAndFlush(userEntity);
-        UserDto updatedUserDto = this.modelMapper.map(updatedUserEntity, UserDto.class);
-        return updatedUserDto;
+        return this.modelMapper.map(updatedUserEntity, UserDto.class);
     }
 
     @Override
     @Transactional
     public UserDto deleteById(Long userId) {
-        UserEntity foundUserEntity = this.userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id %s not found...".formatted(userId)));
-        UserDto foundUserDto = this.modelMapper.map(foundUserEntity, UserDto.class);
+        UserDto foundUserDto = this.userReader.findUserById(userId);
         this.userRepository.deleteById(userId);
         this.userRepository.flush();
         return foundUserDto;

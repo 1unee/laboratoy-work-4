@@ -1,6 +1,5 @@
 package com.oneune.laboratory.work.store.entities;
 
-
 import com.oneune.laboratory.work.store.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,9 +12,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Getter
-@Setter
-@ToString
+@Data // нет связей, поэтому спокойно юзаем без страха рекурсии с вызовом equals/hashcode
 public class UserEntity extends AbstractEntity {
     String firstName;
     String lastName;
