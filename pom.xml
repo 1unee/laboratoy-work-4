@@ -44,7 +44,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-			<version>2.2.220</version> <!--	Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220. -->
+			<version>2.2.220</version> <!-- логи спринга: Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220. -->
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
