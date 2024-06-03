@@ -3,7 +3,6 @@ package com.oneune.laboratory.work.store.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @AllArgsConstructor
 @Getter
 public enum SortTypeEnum {

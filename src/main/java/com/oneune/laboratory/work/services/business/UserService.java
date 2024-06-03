@@ -2,6 +2,7 @@ package com.oneune.laboratory.work.services.business;
 
 import com.oneune.laboratory.work.repositories.UserRepository;
 import com.oneune.laboratory.work.services.contracts.CRUDable;
+import com.oneune.laboratory.work.services.readers.RoleReader;
 import com.oneune.laboratory.work.services.readers.UserReader;
 import com.oneune.laboratory.work.store.dtos.UserDto;
 import com.oneune.laboratory.work.store.entities.UserEntity;
@@ -12,29 +13,40 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static com.oneune.laboratory.work.store.enums.RoleEnum.ROLE_GUEST;
+import static com.oneune.laboratory.work.store.enums.RoleEnum.ROLE_USER;
+
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class UserService implements CRUDable<UserDto> {
-    static Type USER_LIST_DTOS_REFERENCE = new ParameterizedTypeReference<List<UserDto>>(){}.getType();
+
+    private final static Type USER_LIST_DTOS_REFERENCE = new ParameterizedTypeReference<List<UserDto>>(){}.getType();
 
     UserRepository userRepository;
     UserReader userReader;
     ModelMapper modelMapper;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+    RoleReader roleReader;
 
     @Override
     @Transactional
     public UserDto post(UserDto userDto) {
-        UserEntity userEntity = this.modelMapper.map(userDto, UserEntity.class);
-        UserEntity createdUserEntity = this.userRepository.saveAndFlush(userEntity);// тут понятно, что сохранять и мб флашить контекст не обязательно (это сделает хибер), но для лучшей читаемости предпочитаю явно это делать
-        return this.modelMapper.map(createdUserEntity, UserDto.class);
+        UserEntity userEntity = UserEntity.create(
+                userDto.getUsername(),
+                this.bCryptPasswordEncoder.encode(userDto.getPassword()),
+                this.roleReader.findByNames(ROLE_GUEST, ROLE_USER)
+        );
+        this.userRepository.saveAndFlush(userEntity);  // тут понятно, что сохранять и мб флашить контекст не обязательно (это сделает хибер), но для лучшей читаемости предпочитаю явно это делать
+        return this.modelMapper.map(userEntity, UserDto.class);
     }
 
     @Override

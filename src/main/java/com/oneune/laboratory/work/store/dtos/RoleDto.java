@@ -1,7 +1,10 @@
 package com.oneune.laboratory.work.store.dtos;
 
-import com.oneune.laboratory.work.services.contracts.Identifiable;
-import lombok.*;
+import com.oneune.laboratory.work.store.enums.RoleEnum;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
@@ -10,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Data
-public abstract class AbstractDto implements Identifiable {
-    @Setter(AccessLevel.PRIVATE)
-    Long id;
+public class RoleDto extends AbstractDto {
+    RoleEnum name;
 }

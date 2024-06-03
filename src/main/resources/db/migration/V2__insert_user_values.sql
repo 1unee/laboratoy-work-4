@@ -1,4 +1,4 @@
-INSERT INTO "user" (first_name, last_name, role)
+INSERT INTO `user` (first_name, last_name, role)
 VALUES
     ('John', 'Doe', 'ADMIN'),
     ('Jane', 'Smith', 'DEVELOPER'),
