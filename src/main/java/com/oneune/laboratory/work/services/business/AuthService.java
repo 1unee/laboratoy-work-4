@@ -29,12 +29,12 @@ public class AuthService {
     JwtAuthorizationUtil jwtAuthorizationUtil;
     UserService userService;
 
-    public AuthorizationDto register(UserDto payload) {
+    public AuthorizationDto register(UserDto payload, boolean addAdminRole) {
         try {
             UserDto user = this.userReader.findUserDtoByUsername(payload.getUsername());
             throw new BusinessLogicException(String.format("User '%s' already exists!", user.getUsername()));
         } catch (JpaObjectRetrievalFailureException | EntityNotFoundException e) {
-            UserDto createdUser = this.userService.post(payload);
+            UserDto createdUser = this.userService.post(payload, addAdminRole);
             createdUser.setPassword(payload.getPassword());
             return this.authenticate(createdUser);
         } catch (Exception e) {

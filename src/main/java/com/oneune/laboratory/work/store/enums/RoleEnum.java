@@ -9,11 +9,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Getter
 public enum RoleEnum {
-    ROLE_GUEST,
-    ROLE_USER,
-    ROLE_ADMIN,
-    ROLE_DEVELOPER,
-    ROLE_TESTER,
-    ROLE_SYSTEM_ANALYST,
-    ROLE_TEAM_LEAD
+    USER,
+    DEVELOPER,
+    TESTER,
+    SYSTEM_ANALYST,
+    TEAM_LEAD,
+    ADMIN
 }

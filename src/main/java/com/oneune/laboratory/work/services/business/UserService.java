@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static com.oneune.laboratory.work.store.enums.RoleEnum.ROLE_GUEST;
-import static com.oneune.laboratory.work.store.enums.RoleEnum.ROLE_USER;
+import static com.oneune.laboratory.work.store.enums.RoleEnum.ADMIN;
+import static com.oneune.laboratory.work.store.enums.RoleEnum.USER;
 
 
 @Service
@@ -43,9 +43,20 @@ public class UserService implements CRUDable<UserDto> {
         UserEntity userEntity = UserEntity.create(
                 userDto.getUsername(),
                 this.bCryptPasswordEncoder.encode(userDto.getPassword()),
-                this.roleReader.findByNames(ROLE_GUEST, ROLE_USER)
+                this.roleReader.findByNames(USER)
         );
         this.userRepository.saveAndFlush(userEntity);  // тут понятно, что сохранять и мб флашить контекст не обязательно (это сделает хибер), но для лучшей читаемости предпочитаю явно это делать
+        return this.modelMapper.map(userEntity, UserDto.class);
+    }
+
+    @Transactional
+    public UserDto post(UserDto userDto, boolean addAdminRole) {
+        UserEntity userEntity = UserEntity.create(
+                userDto.getUsername(),
+                this.bCryptPasswordEncoder.encode(userDto.getPassword()),
+                addAdminRole ? this.roleReader.findByNames(USER, ADMIN) : this.roleReader.findByNames(USER)
+        );
+        this.userRepository.saveAndFlush(userEntity);
         return this.modelMapper.map(userEntity, UserDto.class);
     }
 

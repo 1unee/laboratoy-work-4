@@ -21,7 +21,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -33,10 +32,10 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.List;
 
+import static com.oneune.laboratory.work.store.enums.RoleEnum.ADMIN;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -56,36 +55,32 @@ public class SecurityConfig {
 
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector);
+        return new MvcRequestMatcher.Builder(introspector)
+                .servletPath(this.webMvcProperties.getServlet().getPath());
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,MvcRequestMatcher.Builder mvc) throws Exception {
 
-        String contextPath = this.webMvcProperties.getServlet().getPath();
-        String authApiVersion = this.serverProperties.getApi().version().auth();
+        ServerProperties.Version version = this.serverProperties.getApi().version();
 
-        final String SIGN_IN = "%s/auth/%s/sign-in".formatted(contextPath, authApiVersion);
-        final String LOG_IN = "%s/auth/%s/log-in".formatted(contextPath, authApiVersion);
-        final String LOG_UP = "%s/auth/%s/log-up".formatted(contextPath, authApiVersion);
-        final String LOG_OUT = "%s/auth/%s/log-out".formatted(contextPath, authApiVersion);
+        final String SIGN_IN = "/auth/%s/sign-in".formatted(version.auth());
+        final String LOG_IN = "/auth/%s/log-in".formatted(version.auth());
+        final String LOG_UP = "/auth/%s/log-up".formatted(version.auth());
+        final String LOG_OUT = "/auth/%s/log-out".formatted(version.auth());
+        final String ADMIN_PATHS = "/admin/%s/**".formatted(version.admin());
 
-        DefaultSecurityFilterChain customFilterChain = httpSecurity
+        SecurityFilterChain customFilterChain = http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        httpRequests -> httpRequests
-                                .requestMatchers(antMatcher(("/h2-console/**"))).permitAll()
-                                .requestMatchers(mvc.pattern(SIGN_IN), mvc.pattern(LOG_IN), mvc.pattern(LOG_UP)).permitAll()
-                                .requestMatchers(antMatcher(SIGN_IN), antMatcher(LOG_IN), antMatcher(LOG_UP)).permitAll()
-                                .requestMatchers(mvc.pattern(LOG_OUT)).authenticated()
-                                .requestMatchers(antMatcher(SIGN_IN)).authenticated()
-//                                .requestMatchers("/**").authenticated()
-//                                .requestMatchers("/admin/**").hasAuthority(ADMIN.name()) // refactor with using hasRole and RoleEnum.ADMIN
-                                .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(httpRequests -> httpRequests
+                        .requestMatchers(mvc.pattern("/h2-console/**")).permitAll()
+                        .requestMatchers(mvc.pattern(SIGN_IN), mvc.pattern(LOG_IN), mvc.pattern(LOG_UP)).permitAll()
+                        .requestMatchers(mvc.pattern(LOG_OUT)).authenticated()
+                        .requestMatchers(mvc.pattern(ADMIN_PATHS)).hasAuthority(ADMIN.name())
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(UNAUTHORIZED)))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(UNAUTHORIZED)))
                 .addFilterBefore(this.jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
         log.info("Configured custom security filter chain");

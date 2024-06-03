@@ -16,6 +16,6 @@ public class ServerProperties {
     Api api;
 
     public record Servlet(String contextPath) {}
-    public record Version(String users, String auth) {}
+    public record Version(String users, String auth, String admin) {}
     public record Api(Version version) {}
 }

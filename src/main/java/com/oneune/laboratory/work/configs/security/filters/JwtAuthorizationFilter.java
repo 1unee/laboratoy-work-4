@@ -2,7 +2,7 @@ package com.oneune.laboratory.work.configs.security.filters;
 
 import com.oneune.laboratory.work.services.utils.JwtAuthorizationUtil;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

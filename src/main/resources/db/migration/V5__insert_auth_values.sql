@@ -22,13 +22,12 @@
 --
 INSERT INTO `role` (id, `name`)
 VALUES
-    (1, 'ROLE_GUEST'),
-    (2, 'ROLE_USER'),
-    (3, 'ROLE_ADMIN'),
-    (4, 'ROLE_DEVELOPER'),
-    (5, 'ROLE_TESTER'),
-    (6, 'ROLE_SYSTEM_ANALYST'),
-    (7, 'ROLE_TEAM_LEAD');
+    (1, 'USER'),
+    (2, 'TEAM_LEAD'),
+    (3, 'DEVELOPER'),
+    (4, 'TESTER'),
+    (5, 'SYSTEM_ANALYST'),
+    (6, 'ADMIN');
 --
 --
 -- INSERT INTO user_role_link (user_id, role_id)

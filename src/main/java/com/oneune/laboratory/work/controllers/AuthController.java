@@ -17,8 +17,9 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("${server.api.version.auth}/sign-in")
-    public AuthorizationDto register(@RequestBody UserDto user) {
-        return this.authService.register(user);
+    public AuthorizationDto register(@RequestBody UserDto user,
+                                     @RequestParam(required = false, defaultValue = "false") boolean addAdminRole) {
+        return this.authService.register(user, addAdminRole);
     }
 
     @PostMapping("${server.api.version.auth}/log-in")

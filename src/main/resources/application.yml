@@ -23,6 +23,7 @@ server:
     version:
       users: v1
       auth: v1
+      admin: v1
   repository:
     max-amount-on-all-getting: 1000
 
@@ -33,5 +34,5 @@ cache:
 
 auth:
   jwt:
-    secret: some_secret
+    secret: woiet2^312o-kukkto43o2312o-!^&^%&!kukkt[k[k-y-05yi9hrfnoih^%&eheh
     lifetime: 300m
