@@ -1,3 +1,8 @@
+app:
+  version: @MVN@project.version@MVN@
+  name: @MVN@project.name@MVN@
+  description: @MVN@project.description@MVN@
+
 spring:
   application.name: laboratory-work
   datasource:
@@ -26,6 +31,7 @@ server:
       admin: v1
   repository:
     max-amount-on-all-getting: 1000
+  port: 8080
 
 cache:
   manager:
@@ -36,3 +42,11 @@ auth:
   jwt:
     secret: woiet2^312o-kukkto43o2312o-!^&^%&!kukkt[k[k-y-05yi9hrfnoih^%&eheh
     lifetime: 300m
+
+author:
+  username: oneune
+  email: babnicshev.back@mail.ru
+  personal:
+      firstName: Igor
+      lastName: Babnischev
+      middleName: Vladimirovich

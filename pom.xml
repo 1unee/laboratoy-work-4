@@ -12,17 +12,19 @@
 
 	<groupId>com.oneune</groupId>
 	<artifactId>laboratory-work</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 
 	<name>laboratory-work</name>
 	<description>Laboratory work realization</description>
 	<properties>
 		<java.version>21</java.version>
 		<modelmapper.version>3.2.0</modelmapper.version>
+		<h2.version>2.2.220</h2.version> <!-- логи спринга: Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220. -->
 		<guava.version>33.1.0-jre</guava.version>
 		<jjwt.version>0.12.5</jjwt.version>
 		<jaxb-api.version>2.2.7</jaxb-api.version>
 		<jaxb-impl.version>2.2.5-b10</jaxb-impl.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.5.0</springdoc-openapi-starter-webmvc-ui.version>
 	</properties>
 
 	<dependencies>
@@ -48,7 +50,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-			<version>2.2.220</version> <!-- логи спринга: Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220. -->
+			<version>${h2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -94,6 +96,11 @@
 			<artifactId>jaxb-impl</artifactId>
 			<version>${jaxb-impl.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -108,6 +115,17 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<delimiters>
+						<delimiter>@MVN@</delimiter>
+					</delimiters>
+					<useDefaultDelimiters>false</useDefaultDelimiters>
 				</configuration>
 			</plugin>
 		</plugins>

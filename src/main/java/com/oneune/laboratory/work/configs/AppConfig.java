@@ -1,5 +1,6 @@
 package com.oneune.laboratory.work.configs;
 
+import com.oneune.laboratory.work.configs.properties.AppProperties;
 import com.oneune.laboratory.work.configs.properties.ServerProperties;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
-@EnableConfigurationProperties(ServerProperties.class)
+@EnableConfigurationProperties({ServerProperties.class, AppProperties.class})
 @Log4j2
 public class AppConfig {
 

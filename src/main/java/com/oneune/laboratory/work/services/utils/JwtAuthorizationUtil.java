@@ -44,7 +44,7 @@ public class JwtAuthorizationUtil {
         );
 
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime() + this.jwtAuthorizationProperties.getLifetime().toMillis());
+        Date expiredDate = new Date(issuedDate.getTime() + this.jwtAuthorizationProperties.lifetime().toMillis());
 
         return Jwts.builder()
                 .claims(claims)
@@ -56,7 +56,7 @@ public class JwtAuthorizationUtil {
     }
 
     private SecretKey getSigningKey() {
-        final byte[] keyBytes = this.jwtAuthorizationProperties.getSecret().getBytes(UTF_8);
+        final byte[] keyBytes = this.jwtAuthorizationProperties.secret().getBytes(UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

@@ -62,7 +62,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,MvcRequestMatcher.Builder mvc) throws Exception {
 
-        ServerProperties.Version version = this.serverProperties.getApi().version();
+        ServerProperties.Version version = this.serverProperties.api().version();
 
         final String SIGN_IN = "/auth/%s/sign-in".formatted(version.auth());
         final String LOG_IN = "/auth/%s/log-in".formatted(version.auth());
@@ -74,10 +74,24 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(httpRequests -> httpRequests
-                        .requestMatchers(mvc.pattern("/h2-console/**")).permitAll()
-                        .requestMatchers(mvc.pattern(SIGN_IN), mvc.pattern(LOG_IN), mvc.pattern(LOG_UP)).permitAll()
-                        .requestMatchers(mvc.pattern(LOG_OUT)).authenticated()
-                        .requestMatchers(mvc.pattern(ADMIN_PATHS)).hasAuthority(ADMIN.name())
+                        .requestMatchers(
+                                mvc.pattern("/h2-console/**")
+                        ).permitAll()
+                        .requestMatchers(
+                                mvc.pattern("/swagger-ui/**"),
+                                mvc.pattern("/v3/api-docs/**")
+                        ).permitAll()
+                        .requestMatchers(
+                                mvc.pattern(SIGN_IN),
+                                mvc.pattern(LOG_IN),
+                                mvc.pattern(LOG_UP)
+                        ).permitAll()
+                        .requestMatchers(
+                                mvc.pattern(LOG_OUT)
+                        ).authenticated()
+                        .requestMatchers(
+                                mvc.pattern(ADMIN_PATHS)
+                        ).hasAuthority(ADMIN.name())
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(UNAUTHORIZED)))

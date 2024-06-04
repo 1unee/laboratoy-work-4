@@ -1,11 +1,10 @@
 package com.oneune.laboratory.work.configs.properties;
 
+import com.oneune.laboratory.work.store.dtos.PersonalDto;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 
-import java.time.Duration;
-
-@ConfigurationProperties(prefix = "auth.jwt")
+@ConfigurationProperties(prefix = "author")
 @PropertySource("classpath:application.yml")
-public record JwtAuthorizationProperties(String secret, Duration lifetime) {
+public record AuthorProperties(String username, String email, PersonalDto personal) {
 }
