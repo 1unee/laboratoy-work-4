@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.info.License;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AuthorProperties.class)
+@Log4j2
 public class OpenApiConfig {
 
     AuthorProperties authorProperties;
@@ -48,6 +50,7 @@ public class OpenApiConfig {
                 .contact(this.getContact())
                 .description(this.appProperties.description())
                 .license(this.getLicense());
+        log.info("Open API bean was autowired");
         return new OpenAPI().info(info);
     }
 }

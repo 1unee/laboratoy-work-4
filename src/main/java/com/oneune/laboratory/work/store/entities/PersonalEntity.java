@@ -1,6 +1,7 @@
 package com.oneune.laboratory.work.store.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "personal")
+@SequenceGenerator(sequenceName = "personal_id_seq", name = "id_seq", allocationSize = 1)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor

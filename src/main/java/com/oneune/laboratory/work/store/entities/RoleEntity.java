@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "role")
+@SequenceGenerator(sequenceName = "role_id_seq", name = "id_seq", allocationSize = 1)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor

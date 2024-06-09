@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "`user`") // sql ругается на служебное слово
+@Table(name = "\"user\"") // sql ругается на служебное слово
+@SequenceGenerator(sequenceName = "user_id_seq", name = "id_seq", allocationSize = 1)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
