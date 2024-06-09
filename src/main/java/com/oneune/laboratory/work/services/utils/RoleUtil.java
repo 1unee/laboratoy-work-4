@@ -7,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collection;
 import java.util.List;
 
-public class RoleUtil {
+public final class RoleUtil {
 
     public static List<SimpleGrantedAuthority> getSimpleGrantedAuthoritiesByString(Collection<String> roles) {
         return roles.stream()

@@ -47,6 +47,9 @@ author:
   username: oneune
   email: babnicshev.back@mail.ru
   personal:
-      firstName: Igor
-      lastName: Babnischev
-      middleName: Vladimirovich
+      first-name: Igor
+      last-name: Babnischev
+      middle-name: Vladimirovich
+  addition:
+    university:
+      group: B20-603

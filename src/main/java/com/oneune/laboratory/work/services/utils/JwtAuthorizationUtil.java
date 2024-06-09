@@ -26,7 +26,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 @Log4j2
-public class JwtAuthorizationUtil {
+public final class JwtAuthorizationUtil {
 
     public final static String ROLES_CLAIM = "roles";
 

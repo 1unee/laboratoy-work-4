@@ -6,5 +6,11 @@ import org.springframework.context.annotation.PropertySource;
 
 @ConfigurationProperties(prefix = "author")
 @PropertySource("classpath:application.yml")
-public record AuthorProperties(String username, String email, PersonalDto personal) {
+public record AuthorProperties(String username,
+                               String email,
+                               PersonalDto personal,
+                               Addition addition) {
+
+    public record Addition(University university) {}
+    public record University(String group) {}
 }

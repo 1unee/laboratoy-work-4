@@ -5,9 +5,13 @@ import org.springframework.context.annotation.PropertySource;
 
 @ConfigurationProperties(prefix = "server")
 @PropertySource("classpath:application.yml")
-public record ServerProperties(Servlet servlet, Api api) {
+public record ServerProperties(Servlet servlet,
+                               Api api,
+                               Repository repository,
+                               Integer port) {
 
     public record Servlet(String contextPath) {}
     public record Version(String users, String auth, String admin) {}
     public record Api(Version version) {}
+    public record Repository(Integer maxAmountOnAllGetting) {}
 }
