@@ -8,13 +8,14 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -30,11 +31,14 @@ public final class ReadmeFileGeneratorUtil implements CommandLineRunner {
     AuthorProperties authorProperties;
     ServerProperties serverProperties;
     WebMvcProperties webMvcProperties;
+    ResourceLoader resourceLoader;
 
     @Override
     public void run(String... args) throws IOException {
-        File readmeFileTemplate = ResourceUtils.getFile("classpath:static/README.template.md");
-        String readmeFileTemplateContent = FileCopyUtils.copyToString(new FileReader(readmeFileTemplate));
+        Resource resource = resourceLoader.getResource("classpath:static/README.template.md");
+        String readmeFileTemplateContent = FileCopyUtils.copyToString(
+                new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)
+        );
 
         Map<String, String> readmeFileProperties = this.getFilledPropertiesContainer();
         String readmeContent = setProperties(readmeFileTemplateContent, readmeFileProperties);

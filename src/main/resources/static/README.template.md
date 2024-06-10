@@ -14,8 +14,7 @@
 2) __Кеширование эндпоинта__ `getAll` в `UserController` (*чтобы хоть как-то оптимизировать получение сразу всех пользователей*);
 3) __Автогенерация API документации__ с помощью `springdoc-openapi` (*ознакомиться тут => __[OPEN API DOCS](http://localhost:@MD@server.port@MD@/user-api/swagger-ui/index.html#/)__*);
 3) __Автогенерация README файла__ на основе properties.yml с помощью `ReadmeFileGeneratorUtil`;
-4) __Unit-тесты__  (*покрывает core-функционал*);
-5) __Docker-file__.
+4) __Docker-file__.
 
 
 ## Use-case JWT авторизации
