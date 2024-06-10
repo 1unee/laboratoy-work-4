@@ -1,5 +1,6 @@
 # Автор: @MD@author.personal.last-name@MD@ @MD@author.personal.first-name@MD@ @MD@author.personal.middle-name@MD@ @MD@author.addition.university.group@MD@
 
+# P.S. хотелось бы полноценное ревью, если будет время
 
 # Лабораторная работа №4 (*[github](https://github.com/1unee/laboratoy-work-4.git)*)
 
